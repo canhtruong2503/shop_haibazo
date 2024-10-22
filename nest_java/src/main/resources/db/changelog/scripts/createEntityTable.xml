@@ -1,0 +1,95 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet id="create-accounts-table" author="root">
+        <sql>
+            CREATE TABLE IF NOT EXISTS accounts (
+                                                    id BINARY(16) DEFAULT (UNHEX(REPLACE(UUID(), '-', ''))) PRIMARY KEY,
+                username VARCHAR(20) NOT NULL,
+                password VARCHAR(75) NOT NULL,
+                name VARCHAR(30) NOT NULL,
+                dob DATE,
+                email VARCHAR(50) NOT NULL UNIQUE,
+                phone_number VARCHAR(15) NOT NULL UNIQUE,
+                avatar VARCHAR(255),
+                role VARCHAR(16),
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                deleted_at TIMESTAMP DEFAULT NULL,
+                disable_at TIMESTAMP DEFAULT NULL
+                );
+        </sql>
+    </changeSet>
+    <changeSet id="insert-accounts-data" author="root">
+        <sql>
+            INSERT INTO accounts (id, username, password, name, dob, email, phone_number, avatar, role, created_at, updated_at)
+            VALUES
+                (UNHEX(REPLACE(UUID(), '-', '')), 'john_doe', 'hashed_password_1', 'John Doe', '1990-01-01', 'john.doe@example.com', '1234567890', 'path/to/avatar1.jpg', 'USER', CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+                (UNHEX(REPLACE(UUID(), '-', '')), 'jane_doe', 'hashed_password_2', 'Jane Doe', '1992-02-02', 'jane.doe@example.com', '0987654321', 'path/to/avatar2.jpg', 'USER', CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+                (UNHEX(REPLACE(UUID(), '-', '')), 'alice_smith', 'hashed_password_3', 'Alice Smith', '1985-03-03', 'alice.smith@example.com', '1122334455', 'path/to/avatar3.jpg', 'ADMIN', CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+        </sql>
+    </changeSet>
+    <changeSet id="create-product-table" author="root">
+        <sql>
+            CREATE TABLE IF NOT EXISTS product (
+                                                   id BINARY(16) DEFAULT (UNHEX(REPLACE(UUID(), '-', ''))) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(19, 4) NOT NULL,
+    discount_percentage DECIMAL(5, 2),
+    discount_start_date DATE,
+    discount_end_date DATE,
+    user_id BINARY(16) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP DEFAULT NULL,
+    disable_at TIMESTAMP DEFAULT NULL,
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES accounts(id) ON DELETE CASCADE
+    );
+        </sql>
+    </changeSet>
+    <changeSet id="create-image-table" author="root">
+        <sql>
+            CREATE TABLE IF NOT EXISTS image (
+                                                 id BINARY(16) DEFAULT (UNHEX(REPLACE(UUID(), '-', ''))) PRIMARY KEY,
+                url VARCHAR(255) NOT NULL,
+                product_id BINARY(16) NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                deleted_at TIMESTAMP DEFAULT NULL,
+                disable_at TIMESTAMP DEFAULT NULL,
+                FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE
+                );
+        </sql>
+    </changeSet>
+
+    <changeSet id="create-size-table" author="root">
+        <sql>
+            CREATE TABLE IF NOT EXISTS size_product (
+                                            id BINARY(16) DEFAULT (UNHEX(REPLACE(UUID(), '-', ''))) PRIMARY KEY,
+    size VARCHAR(50) NOT NULL,
+    product_id BINARY(16) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP DEFAULT NULL,
+    disable_at TIMESTAMP DEFAULT NULL,
+    FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE
+    );
+
+        </sql>
+    </changeSet>
+<!--    <changeSet id="insert-product-data" author="root">-->
+<!--        <sql>-->
+<!--            INSERT INTO product (id, name, description, quantity, price, discount_percentage, discount_start_date, discount_end_date, user_id, created_at, updated_at)-->
+<!--            VALUES-->
+<!--                (UNHEX(REPLACE(UUID(), '-', '')), 'Product 1', 'Description for Product 1', 100, 29.99, NULL, NULL, NULL, UNHEX(REPLACE(UUID(), '-', '')), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),-->
+<!--                (UNHEX(REPLACE(UUID(), '-', '')), 'Product 2', 'Description for Product 2', 50, 19.99, 10.00, '2024-01-01', '2024-01-31', UNHEX(REPLACE(UUID(), '-', '')), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),-->
+<!--                (UNHEX(REPLACE(UUID(), '-', '')), 'Product 3', 'Description for Product 3', 20, 49.99, NULL, NULL, NULL, UNHEX(REPLACE(UUID(), '-', '')), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);-->
+<!--        </sql>-->
+<!--    </changeSet>-->
+
+    <!-- Thêm các changeSet cho bảng product và size_product tương tự -->
+</databaseChangeLog>

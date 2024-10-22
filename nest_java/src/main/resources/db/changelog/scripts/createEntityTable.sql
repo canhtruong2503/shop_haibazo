@@ -1,0 +1,51 @@
+-- CREATE TABLE IF NOT EXISTS image (
+--                                       id BINARY(16) DEFAULT (UNHEX(REPLACE(UUID(), '-', ''))) PRIMARY KEY,
+--     url VARCHAR(255) NOT NULL,
+--     product_id BINARY(16) NOT NULL,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+--     deleted_at TIMESTAMP DEFAULT NULL,
+--     disable_at TIMESTAMP DEFAULT NULL,
+--     FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE
+--     );
+-- CREATE TABLE IF NOT EXISTS accounts (
+--                                         id BINARY(16) DEFAULT (UNHEX(REPLACE(UUID(), '-', ''))) PRIMARY KEY,
+--     username VARCHAR(20) NOT NULL,
+--     password VARCHAR(75) NOT NULL,
+--     name VARCHAR(30) NOT NULL,
+--     dob DATE,
+--     email VARCHAR(50) NOT NULL UNIQUE,
+--     phone_number VARCHAR(15) NOT NULL UNIQUE,
+--     avatar VARCHAR(255),
+--     role VARCHAR(16),
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+--     deleted_at TIMESTAMP DEFAULT NULL,
+--     disable_at TIMESTAMP DEFAULT NULL
+--     );
+-- CREATE TABLE IF NOT EXISTS product (
+--                                        id BINARY(16) DEFAULT (UNHEX(REPLACE(UUID(), '-', ''))) PRIMARY KEY,
+--     name VARCHAR(255) NOT NULL,
+--     description TEXT NOT NULL,
+--     quantity INT NOT NULL,
+--     price DECIMAL(19, 4) NOT NULL,
+--     discount_percentage DECIMAL(5, 2),
+--     discount_start_date DATE,
+--     discount_end_date DATE,
+--     user_id BINARY(16) NOT NULL,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+--     deleted_at TIMESTAMP DEFAULT NULL,
+--     disable_at TIMESTAMP DEFAULT NULL,
+--     CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES accounts(id) ON DELETE CASCADE
+--     );
+-- CREATE TABLE IF NOT EXISTS size_product (
+--                                             id BINARY(16) DEFAULT (UNHEX(REPLACE(UUID(), '-', ''))) PRIMARY KEY,
+--     size VARCHAR(50) NOT NULL,
+--     product_id BINARY(16) NOT NULL,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+--     deleted_at TIMESTAMP DEFAULT NULL,
+--     disable_at TIMESTAMP DEFAULT NULL,
+--     FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE
+--     );

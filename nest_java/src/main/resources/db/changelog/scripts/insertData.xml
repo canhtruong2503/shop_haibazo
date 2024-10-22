@@ -1,0 +1,56 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+<!--    <changeSet id="insert-accounts-data" author="root">-->
+<!--        <insert tableName="accounts">-->
+<!--            <column name="id" value="57d5c7c2-f192-45c4-a15e-dc3756484fd8" />-->
+<!--            <column name="username" value="john_doe" />-->
+<!--            <column name="password" value="hashed_password_1" />-->
+<!--            <column name="name" value="John Doe" />-->
+<!--            <column name="dob" valueDate="1990-01-01" />-->
+<!--            <column name="email" value="john.doe@example.com" />-->
+<!--            <column name="phone_number" value="1234567890" />-->
+<!--            <column name="avatar" value="path/to/avatar1.jpg" />-->
+<!--            <column name="role" value="USER" />-->
+<!--        </insert>-->
+<!-- -->
+<!--        <insert tableName="accounts">-->
+<!--            <column name="id" value="e991b737-b89a-4ef5-bc07-a71711777df6" />-->
+<!--            <column name="username" value="jane_doe" />-->
+<!--            <column name="password" value="hashed_password_2" />-->
+<!--            <column name="name" value="Jane Doe" />-->
+<!--            <column name="dob" valueDate="1992-02-02" />-->
+<!--            <column name="email" value="jane.doe@example.com" />-->
+<!--            <column name="phone_number" value="0987654321" />-->
+<!--            <column name="avatar" value="path/to/avatar2.jpg" />-->
+<!--            <column name="role" value="ADMIN" />-->
+<!--        </insert>-->
+
+<!--        <insert tableName="accounts">-->
+<!--            <column name="id" value="b5d31b29-d6b1-4bde-98ed-8e8775803c02" />-->
+<!--            <column name="username" value="alice_smith" />-->
+<!--            <column name="password" value="hashed_password_3" />-->
+<!--            <column name="name" value="Alice Smith" />-->
+<!--            <column name="dob" valueDate="1985-03-03" />-->
+<!--            <column name="email" value="alice.smith@example.com" />-->
+<!--            <column name="phone_number" value="1122334455" />-->
+<!--            <column name="avatar" value="path/to/avatar3.jpg" />-->
+<!--            <column name="role" value="USER" />-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+    <changeSet id="insert-accounts-data" author="root">
+        <sql>
+            INSERT INTO accounts (id, username, password, name, dob, email, phone_number, avatar, role, created_at, updated_at)
+            VALUES
+                (UNHEX(REPLACE(UUID(), '-', '')), 'john_doe', 'hashed_password_1', 'John Doe', '1990-01-01', 'john.doe@example.com', '1234567890', 'path/to/avatar1.jpg', 'USER', CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+                (UNHEX(REPLACE(UUID(), '-', '')), 'jane_doe', 'hashed_password_2', 'Jane Doe', '1992-02-02', 'jane.doe@example.com', '0987654321', 'path/to/avatar2.jpg', 'USER', CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+                (UNHEX(REPLACE(UUID(), '-', '')), 'alice_smith', 'hashed_password_3', 'Alice Smith', '1985-03-03', 'alice.smith@example.com', '1122334455', 'path/to/avatar3.jpg', 'ADMIN', CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+        </sql>
+    </changeSet>
+
+
+    <!-- Thêm các changeSet cho bảng product và size_product tương tự -->
+</databaseChangeLog>
