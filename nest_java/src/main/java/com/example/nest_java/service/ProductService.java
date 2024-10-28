@@ -7,6 +7,7 @@ import com.example.nest_java.model.entity.User;
 import com.example.nest_java.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -17,9 +18,9 @@ public class ProductService extends BaseService<Product, ProductDTO, UUID> {
 
     private final ProductRepository productRepository;
     private final AuthenticationService authenticationService;
-    public ProductService(ProductRepository productRepository, ProductMapper productMapper, AuthenticationService authenticationService) {
+    public ProductService(ProductRepository productRepository, ProductMapper productMapper, AuthenticationService authenticationService, JpaSpecificationExecutor<Product> jpaSpecificationExecutor) {
 
-        super(productRepository, productMapper);
+        super(productRepository, productMapper, jpaSpecificationExecutor);
         this.productRepository = productRepository;
         this.productMapper = productMapper;
         this.authenticationService = authenticationService;

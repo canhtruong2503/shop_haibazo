@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String userEmail;
         String requestURI = request.getRequestURI();
         if (requestURI.startsWith("/v3/api-docs") ||
-                requestURI.startsWith("/swagger-ui") ||
+                requestURI.startsWith("/swagger-ui.html") ||
                 requestURI.startsWith("/swagger-resources") ||
                 requestURI.startsWith("/webjars")) {
             // Nếu là yêu cầu đến Swagger, cho phép mà không cần xác thực

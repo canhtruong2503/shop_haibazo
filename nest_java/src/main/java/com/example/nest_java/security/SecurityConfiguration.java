@@ -38,7 +38,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                                // .anyRequest().permitAll()
                       //  .requestMatchers("/product/**").hasAuthority("ADMIN")
-                        .requestMatchers("/auth/**", "/product/**","/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**").permitAll()
+                        .requestMatchers("/auth/**", "/product/**","/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**","/product/filter/**").permitAll()
                      .anyRequest().authenticated() // Yêu cầu xác thực cho các yêu cầu còn lại
                 )
                 .sessionManagement(session -> session

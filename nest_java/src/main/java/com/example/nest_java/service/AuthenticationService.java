@@ -9,6 +9,7 @@ import com.example.nest_java.mapper.UserMapper;
 import com.example.nest_java.model.entity.User;
 import com.example.nest_java.model.enums.Role;
 import com.example.nest_java.repository.UserRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,9 +32,9 @@ public class AuthenticationService extends BaseService<User, UserDTO, UUID> {
 
     private final JwtService jwtService;
 
-    protected AuthenticationService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService) {
+    protected AuthenticationService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService , JpaSpecificationExecutor<User> jpaSpecificationExecutor) {
 
-        super(userRepository, userMapper);
+        super(userRepository, userMapper,jpaSpecificationExecutor);
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;

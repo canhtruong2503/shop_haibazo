@@ -20,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "accounts")
+@Table(name = "account")
 public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false, length = 20)
     private String username;

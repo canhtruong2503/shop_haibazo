@@ -2,8 +2,12 @@ package com.example.nest_java.controller;
 
 import com.example.nest_java.dto.ApiResponse;
 import com.example.nest_java.dto.BaseDTO;
+import com.example.nest_java.dto.FilterQueryDTO;
 import com.example.nest_java.model.BaseEntity;
 import com.example.nest_java.service.BaseService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.Valid;
@@ -15,7 +19,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @MappedSuperclass
@@ -27,6 +33,54 @@ public abstract class BaseController<E extends BaseEntity,
         ID extends UUID> {
 
     private final BaseService<E, DTO, ID> baseService;
+
+    @GetMapping("/filter")
+    @Operation(summary = "filter entity", description =
+            "method returns list of entities. with input including " +
+                    "'fullTextSearch' is search by name or description." +
+                    " Example : fullTextSearch=text search" +
+                    "'where' is to search by column and value pairs. You can join other tables and set conditions." +
+                    " Example: where=[\"name\":\"example\"] , where=[\"image_url\":\"image.img\"]" +
+                    "'filters' is to search for a column value that is within a range of time or numbers or a list of values.\n" +
+                    "example : filters={\"price\":[\"10000\",\"20000\"]} , filters={\"name\":[\"abc\",\"dcf\",\"xyz\"]}" +
+                    "'skip' is to search for a column value that is not in a range or number or list of values." +
+                    "example same as 'filters'"
+    )
+    public ResponseEntity<ApiResponse> filter(
+            @RequestParam(value = "filters", required = false) String filtersJson,
+            @RequestParam(value = "skip", required = false) String skipJson,
+            @RequestParam(value = "where", required = false) String whereJson,
+            @RequestParam(value = "fullTextSearch", required = false) String fullTextSearch,
+            Pageable pageable
+    ) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, ArrayList<String>> filters = null;
+        Map<String, ArrayList<String>> skip = null;
+        Map<String, String> where = null;
+        try {
+            if (filtersJson != null) {
+                filters = objectMapper.readValue(filtersJson, new TypeReference<Map<String, ArrayList<String>>>() {
+
+                });
+            }
+            if (skipJson != null) {
+                skip = objectMapper.readValue(skipJson, new TypeReference<Map<String, ArrayList<String>>>() {
+
+                });
+            }
+            if (whereJson != null) {
+                where = objectMapper.readValue(whereJson, new TypeReference<Map<String, String>>() {
+
+                });
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(ApiResponse.badRequest("bad request"));
+        }
+        Page<DTO> result = baseService.filter(new FilterQueryDTO(filters, skip, where, fullTextSearch), pageable);
+        return ResponseEntity.ok(ApiResponse.success(result));
+    }
 
     @GetMapping
     @Operation(summary = "Lấy danh sách entity", description = "Phương thức này trả về một danh sách Entity chưa bị xóa và được phân trang.")

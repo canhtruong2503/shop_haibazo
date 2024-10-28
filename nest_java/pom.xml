@@ -153,6 +153,11 @@
             <artifactId>mapstruct</artifactId>
             <version>1.5.5.Final</version> <!-- Bạn có thể dùng phiên bản mới hơn nếu có -->
         </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.6.0</version>
+        </dependency>
 
         <!-- MapStruct Processor (để biên dịch các Mapper) -->
         <dependency>
@@ -161,15 +166,20 @@
             <version>1.5.5.Final</version>
             <scope>provided</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springdoc</groupId>-->
+<!--            <artifactId>springdoc-openapi-ui</artifactId>-->
+<!--            <version>1.6.14</version> &lt;!&ndash; Kiểm tra phiên bản mới nhất &ndash;&gt;-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>io.springfox</groupId>-->
+<!--            <artifactId>springfox-boot-starter</artifactId>-->
+<!--            <version>3.0.0</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.6.14</version> <!-- Kiểm tra phiên bản mới nhất -->
-        </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.6.14</version> <!-- Kiểm tra phiên bản mới nhất -->
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.3.0</version>
         </dependency>
 
     </dependencies>

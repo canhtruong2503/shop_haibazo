@@ -5,8 +5,8 @@
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
     <changeSet id="create-accounts-table" author="root">
         <sql>
-            CREATE TABLE IF NOT EXISTS accounts (
-                                                    id BINARY(16) DEFAULT (UNHEX(REPLACE(UUID(), '-', ''))) PRIMARY KEY,
+            CREATE TABLE IF NOT EXISTS account (
+                id BINARY(16) DEFAULT (UNHEX(REPLACE(UUID(), '-', ''))) PRIMARY KEY,
                 username VARCHAR(20) NOT NULL,
                 password VARCHAR(75) NOT NULL,
                 name VARCHAR(30) NOT NULL,

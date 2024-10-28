@@ -1,6 +1,7 @@
 package com.example.nest_java.service;
 
 import com.example.nest_java.dto.BaseDTO;
+import com.example.nest_java.dto.FilterQueryDTO;
 import com.example.nest_java.mapper.BaseMapper;
 import com.example.nest_java.model.BaseEntity;
 import com.example.nest_java.repository.BaseRepository;
@@ -11,9 +12,12 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,10 +31,18 @@ public class BaseService<E extends BaseEntity,
 
     private final BaseMapper<E, DTO> baseMapper;
 
+    private final JpaSpecificationExecutor<E> jpaSpecificationExecutor;
+
+
+    public Page<DTO> filter(FilterQueryDTO filterQueryDTO, Pageable pageable) {
+
+        BaseSpecification<E> specification = new BaseSpecification<>(filterQueryDTO);
+        return baseMapper.convertListToDTO(jpaSpecificationExecutor.findAll(specification, pageable));
+    }
 
     public Page<DTO> findAll(Pageable pageable) {
 
-        return baseMapper.convertListToDTO(baseRepository.findByDeletedAtAndDisableAt(null,null, pageable));
+        return baseMapper.convertListToDTO(baseRepository.findByDeletedAtAndDisableAt(null, null, pageable));
     }
 
     public Optional<DTO> findById(ID id) {
